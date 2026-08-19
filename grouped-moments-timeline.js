@@ -1,7 +1,12 @@
 (() => {
   const media = (name) => {
-    const optimizedName = name.replace(/\.(png|jpe?g)$/i, '.webp');
-    return optimizedName.includes('/') ? optimizedName : `assets/projects/media/${optimizedName}`;
+    const fileName = String(name).split('/').pop();
+    const optimizedName = /\.(png|jpe?g)$/i.test(fileName)
+      ? fileName.replace(/\.(png|jpe?g)$/i, '.webp')
+      : /\.webp$/i.test(fileName)
+        ? fileName
+        : `${fileName}.webp`;
+    return `assets/projects/media/${optimizedName}`;
   };
 
   // 每条动态保留 PDF 中原本的视觉分组：横排数据、双图、纵向流程或完整 IP 组合。

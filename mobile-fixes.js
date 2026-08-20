@@ -111,7 +111,7 @@
     '#momentsPage .sub-section.pinned>i{flex:0 0 auto!important;font-size:27px!important;}',
     '#momentsPage .moments-cover .cover-art{background-image:url("moments-background-3.png")!important;background-color:transparent!important;filter:none!important;}',
     '#momentsPage .cover-profile p{display:none!important;}',
-    '#momentsPage .cover-note{display:block!important;margin:0!important;padding:12px 16px 14px!important;background:#fff!important;border-bottom:1px solid #ececec!important;color:#747474!important;text-align:center!important;font-size:14px!important;line-height:1.5!important;white-space:nowrap!important;text-shadow:none!important;}',
+    '#momentsPage .cover-note{display:block!important;margin:0!important;padding:60px 16px 14px!important;background:#fff!important;border-bottom:1px solid #ececec!important;color:#747474!important;text-align:center!important;font-size:14px!important;line-height:1.5!important;white-space:nowrap!important;text-shadow:none!important;}',
     '#homePage .action-row{height:68px!important;min-height:68px!important;font-size:23px!important;gap:9px!important;}',
     '#homePage .action-row svg{width:29px!important;height:29px!important;}',
     '}'
@@ -130,7 +130,7 @@
     const note = document.createElement('p');
     note.className = 'cover-note';
     note.textContent = coverNote.textContent;
-    pinned.insertAdjacentElement('afterend', note);
+    pinned.insertAdjacentElement('beforebegin', note);
     coverNote.remove();
   }
 })();

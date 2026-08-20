@@ -31,11 +31,11 @@
     actionList.innerHTML = [
       '<button class="action-row exact-message" type="button" aria-label="发消息" data-tip="添加好友才可以发消息哦~">',
       messageIcon,
-      '<span>发消息</span>',
+      '<span data-tip="添加好友才可以发消息哦~">发消息</span>',
       '</button>',
       '<button class="action-row exact-call" type="button" aria-label="音视频通话" data-tip="是不是还没加我好友！">',
       callIcon,
-      '<span>音视频通话</span>',
+      '<span data-tip="是不是还没加我好友！">音视频通话</span>',
       '</button>'
     ].join('');
   }
@@ -88,10 +88,12 @@
     '#homePage .action-row{position:relative;left:auto;display:flex;align-items:center;justify-content:center;gap:10px;width:100%;height:76px;min-height:76px;margin:0;padding:0;border:0;border-bottom:1px solid #e9e9e9;background:#fff!important;color:#5c6f94!important;font:600 26px/1 -apple-system,BlinkMacSystemFont,PingFang SC,Microsoft YaHei,sans-serif!important;letter-spacing:0!important;cursor:pointer;}',
     '#homePage .action-row:last-child{border-bottom:0;}',
     '#homePage .action-row svg{display:block;width:31px;height:31px;flex:0 0 auto;fill:none!important;stroke:currentColor!important;stroke-width:2.15!important;stroke-linecap:round;stroke-linejoin:round;}',
-    '#homePage .action-row span{display:block;color:inherit!important;font:inherit!important;line-height:1!important;}',
+    '#homePage .action-row span{position:relative;display:block;color:inherit!important;font:inherit!important;line-height:1!important;}',
     '#homePage .action-row:hover{background:#faf8fb!important;}',
-    '#homePage .action-row::after{position:absolute;z-index:5;left:50%;bottom:calc(100% + 6px);transform:translate(-50%,4px);width:max-content;max-width:calc(100% - 24px);padding:8px 11px;border-radius:8px;background:#29313a;color:#fff;content:attr(data-tip);font:13px/1.25 -apple-system,BlinkMacSystemFont,PingFang SC,Microsoft YaHei,sans-serif;opacity:0;pointer-events:none;transition:opacity .18s ease,transform .18s ease;}',
-    '#homePage .action-row:hover::after,#homePage .action-row:focus-visible::after{opacity:1;transform:translate(-50%,0);}',
+    '#homePage .action-list,#homePage .action-row{overflow:visible!important;}',
+    '#homePage .action-row::after{display:none!important;}',
+    '#homePage .action-row span::after{position:absolute;z-index:5;left:50%;bottom:calc(100% + 6px);transform:translate(-50%,4px);display:block;width:max-content;min-width:max-content;max-width:none;padding:8px 11px;border-radius:8px;background:#29313a;color:#fff;content:attr(data-tip);font:13px/1.25 -apple-system,BlinkMacSystemFont,PingFang SC,Microsoft YaHei,sans-serif;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .18s ease,transform .18s ease;}',
+    '#homePage .action-row:hover span::after,#homePage .action-row:focus-visible span::after{opacity:1;transform:translate(-50%,0);}',
     '@media (max-width:600px){',
     'body{overflow-x:hidden;}',
     '#homePage .status-bar{height:58px!important;padding-top:0!important;}',
@@ -105,7 +107,11 @@
     '#momentsPage .sub-section.pinned>b{flex:0 0 auto!important;font-size:20px!important;line-height:1!important;white-space:nowrap!important;}',
     '#momentsPage .sub-section.pinned .gallery{display:flex!important;flex:1 1 auto!important;min-width:0!important;width:auto!important;height:48px!important;gap:4px!important;background:none!important;}',
     '#momentsPage .sub-section.pinned .gallery span{display:block!important;min-width:0!important;height:48px!important;flex:1 1 0!important;background-size:cover!important;background-position:center!important;}',
+    '#momentsPage .sub-section.pinned .gallery span:nth-child(n+4){display:none!important;}',
     '#momentsPage .sub-section.pinned>i{flex:0 0 auto!important;font-size:27px!important;}',
+    '#momentsPage .moments-cover .cover-art{background-image:url("moments-background-3.png")!important;background-color:transparent!important;filter:none!important;}',
+    '#momentsPage .cover-profile p{display:none!important;}',
+    '#momentsPage .cover-note{display:block!important;margin:0!important;padding:12px 16px 14px!important;background:#fff!important;border-bottom:1px solid #ececec!important;color:#747474!important;text-align:center!important;font-size:14px!important;line-height:1.5!important;white-space:nowrap!important;text-shadow:none!important;}',
     '#homePage .action-row{height:68px!important;min-height:68px!important;font-size:23px!important;gap:9px!important;}',
     '#homePage .action-row svg{width:29px!important;height:29px!important;}',
     '}'
@@ -115,4 +121,16 @@
   style.id = 'mobile-quality-fixes';
   style.textContent = styles;
   document.head.append(style);
+
+  const momentsPage = document.querySelector('#momentsPage');
+  const cover = momentsPage && momentsPage.querySelector('.moments-cover');
+  const pinned = momentsPage && momentsPage.querySelector('.sub-section.pinned');
+  const coverNote = cover && cover.querySelector('.cover-profile p');
+  if (coverNote && pinned && window.matchMedia('(max-width: 600px)').matches) {
+    const note = document.createElement('p');
+    note.className = 'cover-note';
+    note.textContent = coverNote.textContent;
+    pinned.insertAdjacentElement('afterend', note);
+    coverNote.remove();
+  }
 })();
